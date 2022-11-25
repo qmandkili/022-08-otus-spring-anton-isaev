@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all genres</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .genres {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .genres tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .genres td:last-child, td:first-child {
+            width: 50px;
+        }
+
+        .btn-group button {
+            margin-right: 5px;
+            float: left; /* Float the buttons side by side */
+        }
+    </style>
+</head>
+<body>
+<div class="btn-group">
+    <form method="get" th:action="@{/books/}">
+        <button class="btn books btn-sm">Books</button>
+    </form>
+    <form method="get" th:action="@{/authors/}">
+        <button class="btn btn-to-authors btn-sm">Authors</button>
+    </form>
+</div>
+
+<h3>Genres:</h3>
+<form method="get" th:action="@{/genres/create}">
+    <button class="btn create-new-genre-btn btn-sm">Create new genre</button>
+</form>
+<table class="genres">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="genre : ${genres}">
+        <td th:text="${genre.id}">1</td>
+        <td th:text="${genre.name}"></td>
+        <td>
+            <form method="post">
+                <a href="edit.html" th:href="@{/genres/edit/(id=${genre.id})}"
+                   th:action="@{/genres/edit/(id=${genre.id})}">
+                    <button type="button">Edit</button>
+                </a>
+            </form>
+            <form method="post" th:action="@{/genres/delete/__${genre.id}__}">
+                <button class="btn btn-delete-secondary btn-sm">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

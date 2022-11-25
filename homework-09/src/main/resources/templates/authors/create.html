@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Create author</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Author creation -->
+<form action="#" th:action="@{/authors/create}" th:object="${author}" method="post">
+    <h3>New Author:</h3>
+    <div class="row">
+        <label for="author-first-name-input">First name:</label>
+        <input id="author-first-name-input" name="firstName" type="text" value="John" th:value="*{firstName}"/>
+    </div>
+    <div class="row">
+        <label for="author-second-name-input">Second name:</label>
+        <input id="author-second-name-input" name="secondName" type="text" value="Doe" th:value="*{secondName}"/>
+    </div>
+    <div class="row">
+        <button type="submit">Create</button>
+        <a href="authors/list.html" th:href="@{/authors}"><button type="button">Cancel</button></a>
+    </div>
+</form>
+</body>
+</html>
