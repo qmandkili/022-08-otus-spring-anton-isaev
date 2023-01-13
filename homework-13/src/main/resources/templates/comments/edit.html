@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit comment</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Comment edition -->
+<form id="edit-form" action="comments/edit.html" th:method="post" th:action="@{/comments/edit(id=${comment.id})}" th:object="${comment}">
+    <h3>Comment Info:</h3>
+
+    <div class="row">
+        <label for="book-name-input">Book:</label>
+        <b th:text="*{book.name}"/>
+        <input readonly id="book-name-input" name="name" type="hidden" th:field="*{book.id}" th:value="*{book}"/>
+    </div>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" type="text" readonly="readonly" value="1" th:value="*{id}"/>
+    </div>
+
+    <div class="row">
+        <label for="comment-text-input">Text:</label>
+        <input id="comment-text-input" name="text_value" type="text" value="Text" th:value="*{text}" th:field="*{text}"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+        <a href="comments/list.html" th:href="@{/comments/__${comment.book.id}__}"><button type="button">Cancel</button></a>
+    </div>
+</form>
+
+</body>
+</html>

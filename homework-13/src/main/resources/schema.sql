@@ -1,0 +1,106 @@
+DROP TABLE IF EXISTS COMMENTS;
+CREATE TABLE COMMENTS
+(
+    ID BIGSERIAL PRIMARY KEY,
+    TEXT VARCHAR(255),
+    BOOK_ID BIGINT,
+    ACCESS_LEVEL BIGINT
+);
+
+DROP TABLE IF EXISTS BOOKS;
+CREATE TABLE BOOKS
+(
+    ID BIGSERIAL PRIMARY KEY,
+    NAME VARCHAR(255),
+    GENRE_ID BIGINT,
+    AUTHOR_ID BIGINT,
+    ACCESS_LEVEL BIGINT
+);
+
+DROP TABLE IF EXISTS GENRES;
+CREATE TABLE GENRES
+(
+    ID BIGSERIAL PRIMARY KEY,
+    NAME VARCHAR(255),
+    ACCESS_LEVEL BIGINT DEFAULT 1
+);
+
+DROP TABLE IF EXISTS AUTHORS;
+CREATE TABLE AUTHORS
+(
+    ID BIGSERIAL PRIMARY KEY,
+    FIRST_NAME VARCHAR(255),
+    SECOND_NAME VARCHAR(255),
+    ACCESS_LEVEL BIGINT
+);
+
+DROP TABLE IF EXISTS USER_ROLE;
+CREATE TABLE USER_ROLE
+(
+    USER_ID BIGINT,
+    roles VARCHAR(255)
+);
+
+DROP TABLE IF EXISTS USERS;
+CREATE TABLE USERS
+(
+    ID BIGSERIAL PRIMARY KEY,
+    USERNAME VARCHAR(255) UNIQUE,
+    PASSWORD VARCHAR(255),
+    ACCESS_LEVEL BIGINT
+);
+
+CREATE TABLE IF NOT EXISTS acl_sid (
+    id bigint(20) NOT NULL AUTO_INCREMENT,
+    principal tinyint(1) NOT NULL,
+    sid varchar(100) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY unique_uk_1 (sid,principal)
+    );
+
+CREATE TABLE IF NOT EXISTS acl_class (
+    id bigint(20) NOT NULL AUTO_INCREMENT,
+    class varchar(255) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY unique_uk_2 (class)
+    );
+
+CREATE TABLE IF NOT EXISTS acl_entry (
+    id bigint(20) NOT NULL AUTO_INCREMENT,
+    acl_object_identity bigint(20) NOT NULL,
+    ace_order int(11) NOT NULL,
+    sid bigint(20) NOT NULL,
+    mask int(11) NOT NULL,
+    granting tinyint(1) NOT NULL,
+    audit_success tinyint(1) NOT NULL,
+    audit_failure tinyint(1) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY unique_uk_4 (acl_object_identity,ace_order)
+    );
+
+CREATE TABLE IF NOT EXISTS acl_object_identity (
+    id bigint(20) NOT NULL AUTO_INCREMENT,
+    object_id_class bigint(20) NOT NULL,
+    object_id_identity bigint(20) NOT NULL,
+    parent_object bigint(20) DEFAULT NULL,
+    owner_sid bigint(20) DEFAULT NULL,
+    entries_inheriting tinyint(1) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY unique_uk_3 (object_id_class,object_id_identity)
+    );
+
+ALTER TABLE BOOKS
+    ADD CONSTRAINT fk_bookGenre
+        FOREIGN KEY (GENRE_ID) REFERENCES GENRES(Id);
+
+ALTER TABLE BOOKS
+    ADD CONSTRAINT fk_bookAuthor
+        FOREIGN KEY (AUTHOR_ID) REFERENCES AUTHORS(Id);
+
+ALTER TABLE COMMENTS
+    ADD CONSTRAINT fk_commentBook
+        FOREIGN KEY (BOOK_ID) REFERENCES BOOKS(Id) ON DELETE CASCADE;
+
+ALTER TABLE USER_ROLE
+    ADD CONSTRAINT fk_user_roles
+        FOREIGN KEY (user_id) REFERENCES USERS(Id);
