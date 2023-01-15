@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    #initialization-mode: always
+    #data: data.sql
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    show-sql: true
+    init:
+      mode: always
+#      data-locations: data.sql
+#      schema-locations: schema.sql
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true
+      enabled: true
+  jpa:
+    generate-ddl: false
+    #generate-ddl: true
+    hibernate:
+      ddl-auto: none
+      #ddl-auto: create-drop
+      properties:
+        hibernate:
+          format_sql: true
+  jmx:
+    enabled: true
+  data:
+    rest:
+      base-path: /datarest
+logging:
+  file:
+    name: homework-16/logs/homework-16.log
+  level:
+    ROOT: INFO
+    org.springframework: INFO
+    org.springframework.transaction: TRACE
+management:
+  endpoints:
+    enabled-by-default: true
+  endpoint:
+    logfile:
+      enabled: true
+    health:
+      show-details: always
