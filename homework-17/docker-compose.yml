@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  backend:
+    build: .
+    image: spring-17-backend-image:latest
+    ports:
+      -   "8080:8080"
+    hostname: "spring-17"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  frontend:
+    build: src/ui/
+    image: spring-17-frontend-image:latest
+    environment:
+      - BACKEND_HOSTNAME=spring-17-backend
+    ports:
+      - "9000:3000"
+    hostname: "spring-17-frontend"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
