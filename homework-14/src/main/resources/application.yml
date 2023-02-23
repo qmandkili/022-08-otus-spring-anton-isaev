@@ -1,0 +1,27 @@
+spring:
+  data:
+    mongodb:
+      database: test
+      host: localhost
+      port: 27017
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  batch:
+    job:
+      enabled: false
+mongock:
+  runner-type: InitializingBean
+  change-logs-scan-package:
+    - ru.otus.spring.mongock.changelog
+logging:
+  level:
+    ROOT: INFO
+  org.springframework: DEBUG
+  org.springframework.transaction: TRACE
