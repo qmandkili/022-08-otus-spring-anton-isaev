@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all books</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .books {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .books tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .books td:last-child, td:first-child {
+            width: 100px;
+        }
+
+        .btn-group button {
+            margin-right: 5px;
+            float: left; /* Float the buttons side by side */
+        }
+    </style>
+</head>
+<body>
+<div class="btn-group">
+    <form method="get" th:action="@{/authors/}">
+        <button class="btn btn-to-authors btn-sm">Authors</button>
+    </form>
+    <form method="get" th:action="@{/genres/}">
+        <button class="btn btn-to-genres btn-sm">Genres</button>
+    </form>
+</div>
+<h3>Book:</h3>
+<form method="get" th:action="@{/books/create}">
+    <button class="btn create-new-book-btn btn-sm">Create new book</button>
+</form>
+<table class="books">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.name}"></td>
+        <td th:text="${book.author.firstName + ' ' + book.author.secondName}"></td>
+        <td th:text="${book.genre.name}"></td>
+        <td>
+            <form method="post">
+                <a href="edit.html" th:href="@{/books/edit/(id=${book.id})}"
+                   th:action="@{/books/edit/(id=${book.id})}">
+                    <button type="button">Edit</button>
+                </a>
+            </form>
+            <form method="get" th:action="@{/comments/__${book.id}__}">
+                <button class="btn btn-show-comments-secondary btn-sm">Show comments</button>
+            </form>
+            <form method="post" th:action="@{/books/delete/__${book.id}__}">
+                <button class="btn btn-delete-secondary btn-sm">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

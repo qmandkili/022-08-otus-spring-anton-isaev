@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all authors</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .authors {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .authors tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .authors td:last-child, td:first-child {
+            width: 100px;
+        }
+
+        .btn-group button {
+            margin-right: 5px;
+            float: left; /* Float the buttons side by side */
+        }
+    </style>
+</head>
+<body>
+
+<div class="btn-group">
+    <form method="get" th:action="@{/books/}">
+        <button class="btn btn-to-books btn-sm">Books</button>
+    </form>
+    <form method="get" th:action="@{/genres/}">
+        <button class="btn btn-to-genres btn-sm">Genres</button>
+    </form>
+</div>
+
+<h3>Author:</h3>
+<form method="get" th:action="@{/authors/create}">
+    <button class="btn create-new-author-btn btn-sm">Create new author</button>
+</form>
+<table class="authors">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Second name</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="author : ${authors}">
+        <td th:text="${author.id}">1</td>
+        <td th:text="${author.firstName}"></td>
+        <td th:text="${author.secondName}"></td>
+        <td>
+            <form method="post">
+                <a href="edit.html" th:href="@{/authors/edit/(id=${author.id})}"
+                   th:action="@{/authors/edit/(id=${author.id})}">
+                    <button type="button">Edit</button>
+                </a>
+            </form>
+            <form method="post" th:action="@{/authors/delete/__${author.id}__}">
+                <button class="btn btn-delete-secondary btn-sm">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

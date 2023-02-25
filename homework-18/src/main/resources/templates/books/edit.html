@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit book</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Book edition -->
+<form action="#" th:object="${book}" method="post">
+    <h3>Edit Book:</h3>
+    <div class="row">
+        <label for="book-name-input">Name:</label>
+        <input id="book-name-input" name="name" type="text" value="The Lord of the Rings" th:value="*{name}"/>
+    </div>
+    <div class="row">
+        <label for="author_id">Author:</label>
+        <select id="author_id" th:field="*{author.id}">
+            <option th:each="author : ${authors}"
+                    th:text="${author.firstName + ' ' + author.secondName}"
+                    th:value="${author.id}">
+        </select>
+    </div>
+    <div class="row">
+        <label for="genre_id">Genre:</label>
+        <select id="genre_id" th:field="*{genre.id}">
+            <option th:each="genre : ${genres}"
+                    th:text="${genre.name}"
+                    th:value="${genre.id}">
+        </select>
+    </div>
+    <div class="row">
+        <button type="submit">Edit</button>
+        <a href="books/list.html" th:href="@{/books}"><button type="button">Cancel</button></a>
+    </div>
+</form>
+</body>
+</html>

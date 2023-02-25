@@ -1,0 +1,64 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    show-sql: true
+    init:
+      mode: always
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true
+      enabled: true
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      properties:
+        hibernate:
+          format_sql: true
+  jmx:
+    enabled: true
+  data:
+    rest:
+      base-path: /datarest
+logging:
+  file:
+    name: homework-18/logs/homework-18.log
+  level:
+    ROOT: INFO
+    org.springframework: INFO
+    org.springframework.transaction: TRACE
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    logfile:
+      enabled: true
+    health:
+      show-details: always
+server:
+  error:
+    include-stacktrace: never
+
+resilience4j.bulkhead:
+  instances:
+    authorService:
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 1
+    bookService:
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 1
+    commentService:
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 1
+    genreService:
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 1
